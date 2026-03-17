@@ -83,7 +83,7 @@ export async function ensureContentIndex() {
           abilities: { type: "keyword" },
           evolution: { type: "keyword" },
           // stats contains dynamic keys (hp, attack, etc). Allow dynamic fields.
-          stats: { type: "object", dynamic: true },
+          stats: { type: "object", dynamic: true as any},
         },
       },
     },

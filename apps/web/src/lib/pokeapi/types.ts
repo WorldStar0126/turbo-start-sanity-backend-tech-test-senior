@@ -34,11 +34,13 @@ export type PokeApiSpecies = {
   evolution_chain?: { url: string } | null;
 };
 
+export type PokeApiEvolutionChainNode = {
+  species: { name: string };
+  evolves_to: PokeApiEvolutionChainNode[];
+};
+
 export type PokeApiEvolutionChain = {
-  chain: {
-    species: { name: string };
-    evolves_to: PokeApiEvolutionChain["chain"]["evolves_to"];
-  };
+  chain: PokeApiEvolutionChainNode;
 };
 
 export type PokemonAggregate = {
