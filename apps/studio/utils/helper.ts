@@ -164,20 +164,29 @@ export function createPageTemplate() {
 /**
  * Determines the presentation URL based on the current environment.
  * Uses localhost:3000 for development.
- * In production, requires SANITY_STUDIO_PRESENTATION_URL to be set.
- * @throws {Error} If SANITY_STUDIO_PRESENTATION_URL is not set in production
+ * In production, uses SANITY_STUDIO_PRESENTATION_URL when set, otherwise
+ * falls back to Vercel-provided URLs when available.
+ * @throws {Error} If no presentation URL can be determined in production.
  */
 export const getPresentationUrl = () => {
   if (process.env.NODE_ENV === "development") {
     return "http://localhost:3000";
   }
 
-  const presentationUrl = process.env.SANITY_STUDIO_PRESENTATION_URL;
-  if (!presentationUrl) {
+  const candidate =
+    process.env.SANITY_STUDIO_PRESENTATION_URL ??
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+    process.env.VERCEL_URL;
+
+  if (!candidate) {
     throw new Error(
-      "SANITY_STUDIO_PRESENTATION_URL must be set in production environment"
+      "Unable to determine Presentation URL. Set SANITY_STUDIO_PRESENTATION_URL in the Studio environment."
     );
   }
 
-  return presentationUrl;
+  if (candidate.startsWith("http://") || candidate.startsWith("https://")) {
+    return candidate;
+  }
+
+  return `https://${candidate}`;
 };
