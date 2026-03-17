@@ -80,7 +80,7 @@ export function BlogPageContent({
               error={error}
               hasQuery={hasQuery}
               isSearching={isSearching}
-              results={blogResults.map((r) => r.doc as Blog)}
+              results={blogResults.map((r) => r.doc as any as Blog)}
               searchQuery={searchQuery}
             />
             <PokemonSearchResults
