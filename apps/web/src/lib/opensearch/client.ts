@@ -68,7 +68,7 @@ export async function ensureContentIndex() {
           publishedAt: { type: "date" },
           authors: {
             type: "object",
-            dynamic: true,
+            dynamic: true as any,
             properties: {
               _id: { type: "keyword" },
               name: { type: "text" },
